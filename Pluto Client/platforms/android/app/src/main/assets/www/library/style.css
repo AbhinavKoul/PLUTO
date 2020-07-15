@@ -1,0 +1,30 @@
+@font-face {
+    font-family: 'Material Icons';
+    src: url('../fonts/mdi.woff2'), url('../fonts/mdi.woff');
+}
+
+@font-face {
+    font-family: 'Quicksand';
+    src: url('../fonts/qs.woff2'), url('../fonts/qs.woff');
+}
+
+body {
+    font-family: 'Quicksand', sans-serif;
+}
+
+.material-icons {
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    display: inline-block;
+    line-height: 1;
+    text-transform: none;
+    letter-spacing: normal;
+    word-wrap: normal;
+    white-space: nowrap;
+    direction: ltr;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    -moz-osx-font-smoothing: grayscale;
+    font-feature-settings: 'liga';
+}

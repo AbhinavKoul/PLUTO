@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pluto</title>
+    <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
+    <link rel="stylesheet" href="library/quasar.css">
+    <link rel="stylesheet" href="library/style.css">
+</head>
+<body style="opacity: 0">
+    <main id="app">
+        <q-toolbar class="bg-primary text-white" style="position: sticky; top: 0; z-index: 99">
+            <q-btn flat round dense icon="arrow_back" @click="back"></q-btn>
+            <q-toolbar-title>Book Transport</q-toolbar-title>
+        </q-toolbar>
+
+        <div class="q-ma-md" v-if="!end && !time">
+            <q-form @submit="submit">
+                <q-input class="q-mb-md" filled v-model="id" label="Identity" readonly hint="Your Unique ID">
+                    <template v-slot:prepend>
+                        <q-icon name="fingerprint"></q-icon>
+                    </template>
+                </q-input>
+                <q-input class="q-mb-md" type="number" v-model.number="count" filled label="Passengers" :rules="nreq"
+                    no-error-icon hint="Number of Passengers">
+                    <template v-slot:prepend>
+                        <q-icon name="flight_takeoff"></q-icon>
+                    </template>
+                </q-input>
+                <q-select class="q-mb-md" filled label="Source" v-model="src" :options="osrc" :rules="req" no-error-icon
+                    hint="Source Location">
+                    <template v-slot:prepend>
+                        <q-icon name="location_on"></q-icon>
+                    </template>
+                </q-select>
+                <q-select class="q-mb-md" filled label="Destination" v-model="dest" :options="odest" :rules="req"
+                    no-error-icon hint="Destination Location">
+                    <template v-slot:prepend>
+                        <q-icon name="explore"></q-icon>
+                    </template>
+                </q-select>
+                <q-btn color="primary" class="full-width q-py-xs" type="submit" label="BOOK NOW"></q-btn>
+            </q-form>
+        </div>
+
+        <div v-if="!end && time">
+            <q-list separator v-for="(i, no) in data" @click="book(i.id, i.time.seconds)">
+                <q-item clickable v-ripple>
+                    <q-item-section>
+                        Bus #{{ no + 1 }}
+                        <q-item-label caption lines="1">Available: {{ i.seats }}</q-item-label>
+                    </q-item-section>
+                    <q-item-section side>
+                        <q-item-label caption>{{ moment(i.time.seconds * 1000).format('HH:mm') }}</q-item-label>
+                    </q-item-section>
+                </q-item>
+            </q-list>
+
+            <div class="absolute-center" v-if="data === null">
+                <q-spinner-hourglass color="primary" size="2em"></q-spinner-hourglass>
+            </div>
+            <div class="absolute-center" v-if="data?.length == 0">
+                No Bus Available
+            </div>
+        </div>
+
+        <div v-if="end" class="absolute-center">
+            <q-spinner-hourglass color="primary" size="2em" v-if="end === true"></q-spinner-hourglass>
+            <q-spinner-bars color="primary" size="2em" v-else></q-spinner-bars>
+        </div>
+    </main>
+
+    <script>quasarConfig = { brand: { primary: '#2e7e92' }, loadingBar: { size: 0 } }</script>
+    <script src="cordova.js"></script>
+    <script src="library/vue.js"></script>
+    <script src="library/quasar.js"></script>
+    <script src="library/firebase.js"></script>
+    <script src="library/firestore.js"></script>
+    <script src="library/moment.js"></script>
+    <script src="library/script.js"></script>
+    <script>
+        const loc = ['Point_A', 'Point_B', 'Point_C', 'Point_D', 'Point_E']
+        const vue = new Vue({
+            el: '#app',
+            data: {
+                id: init,
+                data: null,
+                time: false,
+                count: 1,
+                end: false,
+                src: null,
+                dest: null,
+                osrc: loc, odest: loc,
+                req: [e => !!e || 'Please Fill This Field'],
+                nreq: [e => e !== '' || 'Please Fill This Field', e => +e > 0 || 'Please Book More', e => +e <= 5 || 'Please Book Less']
+            },
+            watch: {
+                src: function () {
+                    this.odest = loc.filter(e => e !== this.src)
+                },
+                dest: function () {
+                    this.osrc = loc.filter(e => e !== this.dest)
+                }
+            },
+            mounted: async function () {
+                document.body.style.opacity = 1
+                try {
+                    const rawp = (await this.play('passengers')).map(e => e.toLowerCase())
+                    if (rawp.includes('1') || rawp.includes('one') || rawp.includes('won')) this.count = 1
+                    else if (rawp.includes('2') || rawp.includes('two') || rawp.includes('to') || rawp.includes('two') || rawp.includes('too')) this.count = 2
+                    else if (rawp.includes('3') || rawp.includes('shri') || rawp.includes('free') || rawp.includes('shree') || rawp.includes('tree') || rawp.includes('three')) this.count = 3
+                    else if (rawp.includes('4') || rawp.includes('four') || rawp.includes('source') || rawp.includes('force')) this.count = 4
+                    else if (rawp.includes('5') || rawp.includes('five')) this.count = 5
+                    else throw new Error()
+
+                    const raws = (await this.play('source')).map(e => e.toLowerCase())
+                    if (raws.includes('point a')) this.src = 'Point_A'
+                    else if (raws.includes('point b')) this.src = 'Point_B'
+                    else if (raws.includes('point c')) this.src = 'Point_C'
+                    else if (raws.includes('point d')) this.src = 'Point_D'
+                    else if (raws.includes('point e')) this.src = 'Point_E'
+                    else throw new Error()
+
+                    const rawd = (await this.play('destination')).map(e => e.toLowerCase())
+                    if (rawd.includes('point a') && this.odest.includes('Point_A')) this.dest = 'Point_A'
+                    else if (rawd.includes('point b') && this.odest.includes('Point_B')) this.dest = 'Point_B'
+                    else if (rawd.includes('point c') && this.odest.includes('Point_C')) this.dest = 'Point_C'
+                    else if (rawd.includes('point d') && this.odest.includes('Point_D')) this.dest = 'Point_D'
+                    else if (rawd.includes('point e') && this.odest.includes('Point_E')) this.dest = 'Point_E'
+                    else throw new Error()
+                } catch (e) {}
+            },
+            methods: {
+                play: async function (src) {
+                    return new Promise((resolve, reject) => {
+                        const audio = new Audio(`audio/${src}.wav`)
+                        audio.play()
+                        audio.addEventListener('ended', () => window.plugins.speechRecognition.startListening(resolve, reject, { language: 'en-IN', matches: 1, showPopup: false }))
+                    })
+                },
+                back: function () {
+                    if (!this.time) return history.back()
+                    this.time = false
+                    this.data = null
+                },
+                book: async function (id, time) {
+                    this.end = true
+                    const d = new Date()
+                    const audio = new Audio('audio/complete.wav')
+                    await firebase.firestore().collection('booking').add({ client: this.id, source: this.src, destination: this.dest, passengers: this.count, time: new Date(`${d.getMonth() + 1}/${d.getDate()}/${d.getFullYear()} ${moment(time * 1000).format('HH:mm')}`) })
+                    await firebase.firestore().collection('schedule').doc(id).update({ seats: firebase.firestore.FieldValue.increment(-this.count) })
+                    audio.play()
+                    this.end = 'voice'
+                    audio.addEventListener('ended', () => location.replace('log.html'))
+                },
+                submit: function () {
+                    this.time = true
+                    const d = new Date()
+                    firebase.firestore().collection('schedule')
+                        .where('source', '==', this.src)
+                        .where('destination', '==', this.dest)
+                        .where('time', '>', new Date(`1/1/1970 ${d.getHours()}:${d.getMinutes()}`))
+                        .onSnapshot(qs => (vue.data = qs.docs.map(e => ({ id: e.id, ...e.data() }))
+                            .filter(e => e.seats >= this.count)))
+                }
+            }
+        })
+    </script>
+</body>
+</html>
