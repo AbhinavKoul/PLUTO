@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pluto</title>
+    <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
+    <link rel="stylesheet" href="library/quasar.css">
+    <link rel="stylesheet" href="library/style.css">
+    <style>
+        .q-list:not(:last-child) {
+            border-bottom: 1px solid #eee;
+        }
+    </style>
+</head>
+<body style="opacity: 0">
+    <main id="app">
+        <q-toolbar class="bg-primary text-white" style="position: sticky; top: 0; z-index: 99">
+            <q-btn flat round dense icon="arrow_back" @click="history.back()"></q-btn>
+            <q-toolbar-title>{{ init }}</q-toolbar-title>
+        </q-toolbar>
+
+        <q-list separator v-for="i in data">
+            <q-item clickable v-ripple>
+                <q-item-section>
+                    <q-item-label>Passengers: {{ i.passengers }}</q-item-label>
+                    <q-item-label caption lines="2">{{ i.source }} to {{ i.destination }}</q-item-label>
+                    <q-item-label caption lines="2">{{ moment(i.time.seconds * 1000).format('DD MMM Y') }}
+                    </q-item-label>
+                </q-item-section>
+                <q-item-section side>
+                    <q-item-label caption>{{ moment(i.time.seconds * 1000).format('HH:mm') }}</q-item-label>
+                </q-item-section>
+            </q-item>
+        </q-list>
+
+        <div class="absolute-center" v-if="data === null">
+            <q-spinner-hourglass color="primary" size="2em"></q-spinner-hourglass>
+        </div>
+        <div class="absolute-center" v-if="data?.length === 0">No Booking</div>
+    </main>
+
+    <script>quasarConfig = { brand: { primary: '#2e7e92' }, loadingBar: { size: 0 } }</script>
+    <script src="library/vue.js"></script>
+    <script src="library/quasar.js"></script>
+    <script src="library/firebase.js"></script>
+    <script src="library/firestore.js"></script>
+    <script src="library/moment.js"></script>
+    <script src="library/script.js"></script>
+    <script>
+        new Audio('audio/log.wav').play()
+        const vue = new Vue({ el: '#app', data: { init: init, data: null }, mounted: function () { document.body.style.opacity = 1 } })
+        firebase.firestore().collection('booking').where('client', '==', init).orderBy('time').onSnapshot(qs => (vue.data = qs.docs.map(e => e.data())))
+    </script>
+</body>
+</html>
