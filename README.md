@@ -27,24 +27,24 @@ Dummy video for testing: [DOWNLOAD](https://raw.githubusercontent.com/artisandip
 - Monitors when social distancing
 - Alerts when distancing is voilated
 
-<br>
+<br><br>
 ## Pluto Android App
 Try out the app: [DOWNLOAD](https://raw.githubusercontent.com/artisandip7/IBM-Hack/master/dist/pluto.apk)<br>
 ![](https://raw.githubusercontent.com/artisandip7/IBM-Hack/master/lib/intro.jpeg)
 ![](https://raw.githubusercontent.com/artisandip7/IBM-Hack/master/lib/book.jpeg)
 
-<br>
+<br><br>
 ## Pluto Admin Dash
 Try out the interface: [OPEN](https://ibm-hack.eu-gb.cf.appdomain.cloud)<br>
 ![](https://raw.githubusercontent.com/artisandip7/IBM-Hack/master/lib/admin.png)
 ![](https://raw.githubusercontent.com/artisandip7/IBM-Hack/master/lib/clients.png)
 
-<br>
+<br><br>
 ## Pluto Analytics
 Try out the file: [OPEN](https://github.com/artisandip7/IBM-Hack/blob/master/eda.ipynb)
 
-<br>
+<br><br>
 ## More Links
-PITCH: [OPEN](https://drive.google.com/file/d/1RO852jnU8uFE5hI0SlgC_984m6QHI_tf/view?usp=sharing)<br>
-DEMO: [OPEN](https://drive.google.com/file/d/1ySU1w541StWJ0cNhAzBTEL7THh9YwgkP/view?usp=sharing)<br>
+PITCH: [OPEN](https://drive.google.com/file/d/1RO852jnU8uFE5hI0SlgC_984m6QHI_tf/view?usp=sharing)
+DEMO: [OPEN](https://drive.google.com/file/d/1ySU1w541StWJ0cNhAzBTEL7THh9YwgkP/view?usp=sharing)
 Presentation: [DOWNLOAD](https://raw.githubusercontent.com/artisandip7/IBM-Hack/master/Presentation&#32;for&#32;PLUTO&#32;Social&#32;distancing&#32;Bus&#32;Scheduling&#32;system.pdf)
