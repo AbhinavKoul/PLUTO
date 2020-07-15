@@ -5,7 +5,7 @@
 <br>
 
 ## Social Distance Ensurer
-Try out the model: [DOWNLOAD](https://raw.githubusercontent.com/artisandip7/IBM-Hack/master/dist/SDE.exe)<br>
+Try out the model: [DOWNLOAD](https://raw.githubusercontent.com/artisandip7/IBM-Hack/master/dist/sde.exe)<br>
 Dummy video for testing: [DOWNLOAD](https://raw.githubusercontent.com/artisandip7/IBM-Hack/master/lib/demo.mp4)
 
 #### Application Root
