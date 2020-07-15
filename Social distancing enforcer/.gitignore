@@ -1,0 +1,8 @@
+# Editor Configurations
+.idea/
+.vscode/
+
+# Python Environment
+Environment/
+__pycache__/
+dist/
