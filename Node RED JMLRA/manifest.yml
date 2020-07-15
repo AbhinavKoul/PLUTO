@@ -1,0 +1,13 @@
+applications:
+- buildpack: sdk-for-nodejs
+  command: npm start
+  domain: null
+  env:
+    OPTIMIZE_MEMORY: true
+  host: null
+  instances: 1
+  name: noderedjmlra
+  random-route: true
+  routes:
+  - route: ibm-hack.eu-gb.cf.appdomain.cloud
+  timeout: 180
