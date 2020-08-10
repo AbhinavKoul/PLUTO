@@ -37,7 +37,7 @@ def onStream(event=None):
     top.deiconify()
 
 def onAbout(event=None):
-    messagebox.showinfo('About Software', 'Developed by Isolated Boys\nFor IBM Hack 2020')
+    messagebox.showinfo('About Software', 'Developed by Isolated Boys')
 
 def onExit(event=None):
     top.quit()
