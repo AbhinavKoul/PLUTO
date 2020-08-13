@@ -1,3 +1,11 @@
+# Presentation and Demo Video
+Explanation and Demo Video : [OPEN](https://drive.google.com/file/d/1rrdzgwxXogsZbKKNM6fqZE9Ezw3ksK5v/view?usp=sharing)  
+
+Presentation: [DOWNLOAD](https://raw.githubusercontent.com/artisandip7/IBM-Hack/master/Presentation&#32;for&#32;PLUTO&#32;Social&#32;distancing&#32;Bus&#32;Scheduling&#32;system.pdf)  
+
+Animated Pitch Explanation: [OPEN](https://drive.google.com/file/d/1RO852jnU8uFE5hI0SlgC_984m6QHI_tf/view?usp=sharing)
+<br>
+
 # Social Distancing Bus Scheduling System
 - Social Distance Ensurer
 - Smart Bus Reservations
@@ -42,10 +50,3 @@ Try out the interface: [OPEN](https://ibm-hack.eu-gb.cf.appdomain.cloud)<br>
 ## Pluto Analytics
 Try out the file: [OPEN](https://github.com/artisandip7/IBM-Hack/blob/master/eda.ipynb)
 <br>
-
-## More Links
-Pitch Video: [OPEN](https://drive.google.com/file/d/1RO852jnU8uFE5hI0SlgC_984m6QHI_tf/view?usp=sharing)
-
-Demo Video: [OPEN](https://drive.google.com/file/d/1ySU1w541StWJ0cNhAzBTEL7THh9YwgkP/view?usp=sharing)
-
-Presentation: [DOWNLOAD](https://raw.githubusercontent.com/artisandip7/IBM-Hack/master/Presentation&#32;for&#32;PLUTO&#32;Social&#32;distancing&#32;Bus&#32;Scheduling&#32;system.pdf)
