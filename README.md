@@ -44,7 +44,7 @@ Try out the app: [DOWNLOAD](https://raw.githubusercontent.com/artisandip7/IBM-Ha
 <br>
 
 ## Pluto Admin Dash
-Try out the interface: [OPEN](https://ibm-hack.eu-gb.cf.appdomain.cloud)<br>
+Try out the interface: [OPEN](https://ib-pluto.netlify.app/)<br>
 ![](https://raw.githubusercontent.com/artisandip7/IBM-Hack/master/lib/admin.png)
 ![](https://raw.githubusercontent.com/artisandip7/IBM-Hack/master/lib/clients.png)
 <br>
