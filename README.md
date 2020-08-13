@@ -1,9 +1,11 @@
 # Presentation and Demo Video
 Explanation and Demo Video : [OPEN](https://drive.google.com/file/d/1rrdzgwxXogsZbKKNM6fqZE9Ezw3ksK5v/view?usp=sharing)  
 
+
+Animated Pitch Explanation: [OPEN](https://drive.google.com/file/d/1RO852jnU8uFE5hI0SlgC_984m6QHI_tf/view?usp=sharing)  
+
 Presentation: [DOWNLOAD](https://raw.githubusercontent.com/artisandip7/IBM-Hack/master/Presentation&#32;for&#32;PLUTO&#32;Social&#32;distancing&#32;Bus&#32;Scheduling&#32;system.pdf)  
 
-Animated Pitch Explanation: [OPEN](https://drive.google.com/file/d/1RO852jnU8uFE5hI0SlgC_984m6QHI_tf/view?usp=sharing)
 <br>
 
 # Social Distancing Bus Scheduling System
