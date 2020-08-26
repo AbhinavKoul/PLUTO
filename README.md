@@ -39,17 +39,15 @@ Dummy video for testing: [DOWNLOAD](https://raw.githubusercontent.com/artisandip
 
 ## Pluto Android App
 Try out the app: [DOWNLOAD](https://raw.githubusercontent.com/artisandip7/IBM-Hack/master/dist/pluto.apk)<br>
-![](https://raw.githubusercontent.com/artisandip7/IBM-Hack/master/lib/intro.jpeg)
-![](https://raw.githubusercontent.com/artisandip7/IBM-Hack/master/lib/book.jpeg)
+![](https://github.com/AbhinavKoul/PLUTO_Social-Distancing-Bus-Scheduling-System/blob/master/lib/app0.PNG)
+![](https://github.com/AbhinavKoul/PLUTO_Social-Distancing-Bus-Scheduling-System/blob/master/lib/app1.PNG)
 <br>
 
 ## Pluto Admin Dash
 Try out the interface: [OPEN](https://ib-pluto.netlify.app/)<br>
 ![](https://github.com/AbhinavKoul/PLUTO_Social-Distancing-Bus-Scheduling-System/blob/master/lib/admin0.PNG)  
-![](https://raw.githubusercontent.com/AbhinavKoul/PLUTO_Social-Distancing-Bus-Scheduling-System
-/master/lib/admin1.png)  
-![](https://raw.githubusercontent.com/AbhinavKoul/PLUTO_Social-Distancing-Bus-Scheduling-System
-/master/lib/client0.png)  
+![](https://github.com/AbhinavKoul/PLUTO_Social-Distancing-Bus-Scheduling-System/blob/master/lib/admin1.PNG)  
+![](https://github.com/AbhinavKoul/PLUTO_Social-Distancing-Bus-Scheduling-System/blob/master/lib/client0.PNG)  
 <br>
 
 ## Pluto Analytics
