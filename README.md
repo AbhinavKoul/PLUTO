@@ -45,8 +45,7 @@ Try out the app: [DOWNLOAD](https://raw.githubusercontent.com/artisandip7/IBM-Ha
 
 ## Pluto Admin Dash
 Try out the interface: [OPEN](https://ib-pluto.netlify.app/)<br>
-![](https://raw.githubusercontent.com/AbhinavKoul/PLUTO_Social-Distancing-Bus-Scheduling-System
-/master/lib/admin0.png)  
+![](https://github.com/AbhinavKoul/PLUTO_Social-Distancing-Bus-Scheduling-System/blob/master/lib/admin0.PNG)  
 ![](https://raw.githubusercontent.com/AbhinavKoul/PLUTO_Social-Distancing-Bus-Scheduling-System
 /master/lib/admin1.png)  
 ![](https://raw.githubusercontent.com/AbhinavKoul/PLUTO_Social-Distancing-Bus-Scheduling-System
