@@ -33,19 +33,8 @@
 
           <!-- Sidebar Toggle (Topbar) -->
           <div class="h4 m-0">PLUTO</div>
-
-          <!-- Topbar Search -->
-          <!-- <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-            <div class="input-group">
-              <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
-              <div class="input-group-append">
-                <button class="btn btn-primary" type="button">
-                  <i class="fas fa-search fa-sm"></i>
-                </button>
-              </div>
-            </div>
-          </form> -->
-
+          <div class="h6 m-0 ml-auto"><strong class="mr-3"><a href="index.html">Home</a></strong>
+            <a href="train.html">Model</a></div>
 
         </nav>
         <!-- End of Topbar -->
@@ -128,8 +117,8 @@
                 <div class="card-body">
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Total Busses</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">{{ busses }}</div>
+                      <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Safe Ratio</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800">60%</div>
                     </div>
                     <div class="col-auto">
                       <i class="fas fa-bus fa-2x text-gray-300"></i>
@@ -140,13 +129,21 @@
             </div>
           </div>
 
+            <input type="text" class="form-control bg-white shadow border-0 small mb-3" v-model="ftext" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
           <div class="card shadow mb-4">
             <div class="card-header py-3">
               <h6 class="m-0 font-weight-bold text-primary">Reset Bus Progress</h6>
             </div>
             <div class="card-body p-0">
+                <div v-if="data.length === 0" class="list-group-item list-group-item-action rounded-0 border-0">
+                    <div class="row">
+                      <div class="col">
+                        <div>No Match</div>
+                    </div>
+                  </div>
+                </div>
               <div v-for="i in data" class="list-group-item list-group-item-action rounded-0 border-0"
-                @click="relocate(i.id)">
+                @click="relocate(i.id, i.safe)">
                 <div class="row">
                   <div class="col">
                     <div><strong>{{ i.source }} {{ i.destination }}</strong></div>
@@ -154,8 +151,10 @@
                       {{ new Date(i.time.seconds * 1000).toLocaleTimeString('en-IN', {hour: '2-digit', minute:'2-digit'}).toUpperCase() }}
                     </div>
                   </div>
-                  <div class="col" style="width: auto; flex-grow: 0"><span
-                      class="badge badge-secondary">{{ i.seats }}</span></div>
+                  <div class="col" style="width: auto; flex-grow: 0">
+                        <div style="display:block" class="badge badge-secondary mb-2">{{ i.safe - i.seats }} / {{ i.safe }}</div>
+                        <div style="display:block" v-if="i.cam" class="badge badge-success">CAM</div>
+                        <div style="display:block" v-else class="badge badge-danger">CAM</div></div>
                 </div>
               </div>
             </div>
@@ -167,7 +166,7 @@
               <h6 class="m-0 font-weight-bold text-primary">Client Bookings</h6>
             </div>
             <div class="card-body p-0">
-              <div v-for="i in bdata" class="list-group-item list-group-item-action rounded-0 border-0">
+              <div v-for="i in bdata" class="list-group-item list-group-item-action rounded-0 border-0" @click="remove(i.id)">
                 <div class="row">
                   <div class="col">
                     <div><strong>{{ i.source }} {{ i.destination }}</strong></div>
@@ -177,6 +176,13 @@
                   </div>
                   <div class="col" style="width: auto; flex-grow: 0"><span
                       class="badge badge-secondary">{{ i.passengers }}</span></div>
+                </div>
+              </div>
+            </div>
+            <div v-if="bdata.length === 0" class="list-group-item list-group-item-action rounded-0 border-0">
+                <div class="row">
+                  <div class="col">
+                    <div>No Bookings Yet</div>
                 </div>
               </div>
             </div>
@@ -204,26 +210,6 @@
     <a class="scroll-to-top rounded" href="#page-top">
       <i class="fas fa-angle-up"></i>
     </a>
-
-    <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-      aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">×</span>
-            </button>
-          </div>
-          <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-          <div class="modal-footer">
-            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-            <a class="btn btn-primary" href="login.html">Logout</a>
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
 
   <!-- Bootstrap core JavaScript-->
@@ -236,12 +222,10 @@
   <!-- Custom scripts for all pages-->
   <script src="js/sb-admin-2.min.js"></script>
 
-  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
   <script src="https://www.gstatic.com/firebasejs/7.15.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/7.15.1/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/7.15.1/firebase-firestore.js"></script>
   <script>
-    const init = localStorage.getItem('init')
     firebase.initializeApp({
       apiKey: 'AIzaSyBr8auyE3enhMQrZJ7ndiPp7bia_b1mnLE',
       authDomain: 'pluto-2f203.firebaseapp.com',
@@ -253,28 +237,59 @@
     const vue = new Vue({
       el: '#wrapper',
       data: {
-        data: null,
-        bdata: null,
-        photo: null,
-        username: '',
-        busses: 0,
+        data: [],
+        bdata: [],
         booked: 0,
         left: 0,
-        conversion: 0
+        conversion: 0,
+        ftext: '',
+        copy: null
+      },
+      watch: {
+        ftext: function (text) {
+            if (!text) return vue.data = vue.copy
+            vue.data = vue.copy.filter(e => (e.source + ' ' + e.destination).toLowerCase().includes(text.toLowerCase()))
+        }
       },
       methods: {
-        relocate: async function (id) {
-          await firebase.firestore().collection('schedule').doc(id).update({ seats: 30 })
+        relocate: function (id, safe) {
+          if (!confirm('Confirm Reset?')) return
+          firebase.firestore().collection('schedule').doc(id).update({ seats: safe })
+        },
+        remove: function (id) {
+          if (!confirm('Confirm Deletion?')) return
+          firebase.firestore().collection('booking').doc(id).delete()
         }
       }
     })
+    
+    const base128ToBytes = (base128str) => {
+        let c= "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz¼½ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷øùúûüýþÿ" 
+        dfout = base128str.split('').map(x=>c.indexOf(x));
+        let dfbits = [];
+        let bits = (n,b=8) => [...Array(b)].map((x,i)=>n>>i&1);
+        dfout.map(x=> dfbits.push(...bits(x,7) ));
+
+        let dfbytes=[]; 
+        let m1 = dfbits.length%8 ? 1 : 0;
+        for(let i =0; i<dfbits.length/8-m1; i++) { 
+            dfbytes.push(parseInt(dfbits.slice(i*8, i*8+8).reverse().join(''),2))  
+        }; 
+        return dfbytes[dfbytes.length - 1] % 2 === 1;
+    }
 
     firebase.firestore().collection('schedule').onSnapshot(qs => {
-      vue.busses = qs.docs.length
-      vue.data = qs.docs.map(e => ({ id: e.id, ...e.data() }))
-      vue.left = vue.data.reduce((p, c) => p + c.seats, 0)
-      vue.booked = vue.busses * 30 - vue.left
-      vue.conversion = parseFloat(vue.booked * 100 / vue.left).toFixed(2)
+      vue.copy = qs.docs.map(e => ({ id: e.id, ...e.data() }))
+      vue.copy = vue.copy.map(e => ({ ...e, safe: Math.floor(0.6 * e.total), cam: base128ToBytes(e.id) }))
+
+      vue.data = vue.ftext
+      ? vue.copy.filter(e => (e.source + ' ' + e.destination).toLowerCase().includes(vue.ftext.toLowerCase()))
+      : vue.copy
+
+      vue.total = vue.copy.reduce((p, c) => p + c.safe, 0)
+      vue.left = vue.copy.reduce((p, c) => p + c.seats, 0)
+      vue.booked = vue.total - vue.left
+      vue.conversion = parseFloat(vue.booked * 100 / vue.total).toFixed(2)
     })
 
     firebase.firestore().collection('booking').onSnapshot(qs => {

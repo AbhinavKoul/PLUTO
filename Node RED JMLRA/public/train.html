@@ -1,0 +1,178 @@
+<style>
+  body {
+    margin: 0;
+    text-align: center
+  }
+
+  .box {
+    margin: auto
+  }
+
+  .list-group-item:nth-child(even) {
+    background: rgba(0, 0, 0, .05)
+  }
+</style>
+<title>Model</title>
+<link href="css/sb-admin-2.min.css" rel="stylesheet">
+
+<nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+  <div class="h4 m-0">PLUTO</div>
+  <div class="h6 m-0 ml-auto"><a href="index.html">Home</a>
+    <strong class="ml-3"><a href="train.html">Model</a></strong></div>
+</nav>
+
+<div class="container">
+  <div style="position: relative; height:500px" class="box shadow mb-4">
+    <canvas id="myChart"></canvas></div>
+
+  <section id="app">
+    <input type="text" class="form-control bg-white shadow border-0 small mb-3" v-model="ftext"
+      placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
+    <div class="card shadow mb-4">
+      <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">ACTIONS</h6>
+      </div>
+      <div class="card-body p-0">
+        <div v-if="data.length === 0" class="list-group-item list-group-item-action rounded-0 border-0">
+          <div class="row">
+            <div class="col">
+              <div>No Match</div>
+            </div>
+          </div>
+        </div>
+        <div v-for="i in data" class="list-group-item list-group-item-action rounded-0 border-0">
+          <div class="row">
+            <div class="col">
+              <div><strong>{{ i.source }} {{ i.destination }}</strong></div>
+              <div class="text-muted">
+                {{ new Date(i.time.seconds * 1000).toLocaleTimeString('en-IN', {hour: '2-digit', minute:'2-digit'}).toUpperCase() }}
+              </div>
+            </div>
+            <div class="col" style="width: auto; flex-grow: 0">
+              <div style="display:block" class="badge badge-secondary mb-2">{{ i.safe }}</div>
+              <section class="d-flex">
+                <div style="display:block; cursor:pointer" class="badge badge-success mr-1"
+                  @click="addF(i.id, i.total)">A</div>
+                <div style="display:block; cursor:pointer" class="badge badge-danger" @click="subF(i.id, i.total)">S
+                </div>
+              </section>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.15.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.15.1/firebase-firestore.js"></script>
+<script>
+  var ctx = document.getElementById('myChart').getContext('2d');
+  fetch('https://bus-estimator.artisingh1.repl.co')
+    .then(e => e.json())
+    .then(e => new Chart(ctx, {
+      type: 'bubble',
+      data: {
+        labels: e[0],
+        datasets: [
+          { backgroundColor: 'rgba(0,200, 100, .5)', radius: 10, data: e[1][0], label: 'Point_A' },
+          { backgroundColor: 'rgba(0,100, 200, .5)', radius: 10, data: e[1][1], label: 'Point_B' },
+          { backgroundColor: 'rgba(200, 200, 0, .5)', radius: 10, data: e[1][2], label: 'Point_C' },
+          { backgroundColor: 'rgba(255, 0, 50, .5)', radius: 10, data: e[1][3], label: 'Point_D' },
+          { backgroundColor: 'rgba(200, 200, 200, .5)', radius: 10, data: e[1][4], label: 'Point_E' },
+        ]
+      },
+      options: {
+        tooltips: {
+          callbacks: {
+            label: function (t, d) {
+              return 'Point_' + 'ABCDE'[t.datasetIndex] + ` [${t.yLabel}]`
+            }
+          }
+        },
+        responsive: true,
+        maintainAspectRatio: false,
+        legend: {
+          display: true,
+          position: 'bottom'
+        },
+        layout: {
+          padding: {
+            left: 50,
+            right: 50,
+            top: 50,
+            bottom: 50
+          }
+        },
+        scales: {
+            xAxes: [{
+                ticks: {
+                    userCallback: function(label, index, labels) {
+                        return e[0][label - 1];
+                    }
+                 }
+            }]
+         }
+      }
+    }))
+
+  firebase.initializeApp({
+    apiKey: 'AIzaSyBr8auyE3enhMQrZJ7ndiPp7bia_b1mnLE',
+    authDomain: 'pluto-2f203.firebaseapp.com',
+    databaseURL: 'https://pluto-2f203.firebaseio.com',
+    projectId: 'pluto-2f203',
+    appId: '1:1043081025436:web:d04dfc01127e1dfba65a59'
+  })
+
+  const vue = new Vue({
+    el: '#app',
+    data: {
+      data: [],
+      bdata: [],
+      booked: 0,
+      left: 0,
+      conversion: 0,
+      ftext: '',
+      copy: null
+    },
+    watch: {
+      ftext: function (text) {
+        if (!text) return vue.data = vue.copy
+        vue.data = vue.copy.filter(e => (e.source + ' ' + e.destination).toLowerCase().includes(text.toLowerCase()))
+      }
+    },
+    methods: {
+      addF: function (id, total) {
+        if (!confirm('Confirm Addition?')) return
+        total += 5
+        const seats = Math.floor(0.6 * total)
+        firebase.firestore().collection('schedule').doc(id).update({ seats, total })
+      },
+      subF: function (id, total) {
+        if (!confirm('Confirm Deletion?')) return
+        total -= 5
+        const seats = Math.floor(0.6 * total)
+        firebase.firestore().collection('schedule').doc(id).update({ seats, total })
+      }
+    }
+  })
+
+    firebase.firestore().collection('schedule').onSnapshot(qs => {
+      vue.copy = qs.docs.map(e => ({ id: e.id, ...e.data() }))
+      vue.copy = vue.copy.map(e => ({ ...e, safe: Math.floor(0.6 * e.total) }))
+
+      vue.data = vue.ftext
+      ? vue.copy.filter(e => (e.source + ' ' + e.destination).toLowerCase().includes(vue.ftext.toLowerCase()))
+      : vue.copy
+
+      vue.total = vue.copy.reduce((p, c) => p + c.safe, 0)
+      vue.left = vue.copy.reduce((p, c) => p + c.seats, 0)
+      vue.booked = vue.total - vue.left
+      vue.conversion = parseFloat(vue.booked * 100 / vue.total).toFixed(2)
+    })
+
+  firebase.firestore().collection('booking').onSnapshot(qs => {
+    vue.bdata = qs.docs.map(e => ({ id: e.id, ...e.data() }))
+  })
+</script>
